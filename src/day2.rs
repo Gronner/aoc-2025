@@ -36,10 +36,9 @@ impl Id {
 /// abab => baba => abab
 fn is_repeated(n: &str) -> bool {
     let mid = n.len() / 2;
+    let n = n.as_bytes();
     (1..=mid).any(|rot| {
-        let mut rotate = n.chars().collect::<VecDeque<char>>();
-        rotate.rotate_left(rot);
-        n == rotate.iter().join("")
+        n == [&n[rot..], &n[..rot]].concat()
     })
 }
 
