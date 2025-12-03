@@ -1,6 +1,5 @@
 use anyhow::Result;
-use itertools::Itertools;
-use std::{collections::VecDeque, str::FromStr};
+use std::str::FromStr;
 
 use aoc_runner_derive::{aoc, aoc_generator};
 
@@ -37,9 +36,7 @@ impl Id {
 fn is_repeated(n: &str) -> bool {
     let mid = n.len() / 2;
     let n = n.as_bytes();
-    (1..=mid).any(|rot| {
-        n == [&n[rot..], &n[..rot]].concat()
-    })
+    (1..=mid).any(|rot| n == [&n[rot..], &n[..rot]].concat())
 }
 
 impl FromStr for Id {
