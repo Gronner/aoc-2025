@@ -34,7 +34,7 @@ fn part1(input: &(usize, usize, HashSet<(usize, usize)>)) -> usize {
     let mut splits = 0;
 
     for depth in 1..*max_depth {
-        let new_tachyons = tachyons
+        tachyons = tachyons
             .iter()
             .flat_map(|tachyon| {
                 if map.contains(&(depth, *tachyon)) {
@@ -45,13 +45,12 @@ fn part1(input: &(usize, usize, HashSet<(usize, usize)>)) -> usize {
                 }
             })
             .collect::<HashSet<_>>();
-        tachyons = new_tachyons;
     }
 
     splits
 }
 
-#[memoize(Ignore: map)]
+#[memoize(Ignore: map, Ignore: max_depth)]
 fn split(pos: usize, depth: usize, max_depth: usize, map: &HashSet<(usize, usize)>) -> usize {
     if depth == max_depth {
         return 1;
