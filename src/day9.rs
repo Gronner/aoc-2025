@@ -43,6 +43,15 @@ impl Rectangle {
         return (corner1.0.max(corner2.0) <= self.x_min || corner1.0.min(corner2.0) >= self.x_max)
             || (corner1.1.max(corner2.1) <= self.y_min || corner1.1.min(corner2.1) >= self.y_max);
     }
+
+    fn corners(&self) -> [(isize, isize); 4] {
+        [
+            (self.x_min, self.y_min),
+            (self.x_max, self.y_min),
+            (self.x_min, self.y_max),
+            (self.x_max, self.y_max),
+        ]
+    }
 }
 
 #[aoc(day9, part1)]
@@ -57,6 +66,15 @@ fn part1(input: &[(isize, isize)]) -> isize {
         .unwrap()
 }
 
+fn is_counter_clockwise_order(a: (isize, isize), b: (isize, isize), c: (isize, isize)) -> bool {
+    (c.1 - a.1) * (b.0 - a.0) > (b.1 - a.1) * (c.0 - a.0)
+}
+
+fn segments_intersect(ray: ((isize, isize), (isize, isize)), segment: ((isize, isize), (isize, isize))) -> bool {
+    is_counter_clockwise_order(ray.0, segment.0, segment.1) != is_counter_clockwise_order(ray.1, segment.0, segment.1)
+        && is_counter_clockwise_order(ray.0, ray.1, segment.0) != is_counter_clockwise_order(ray.0, ray.1, segment.1)
+}
+
 #[aoc(day9, part2)]
 fn part2(input: &[(isize, isize)]) -> isize {
     input
@@ -69,11 +87,16 @@ fn part2(input: &[(isize, isize)]) -> isize {
             Rectangle::new(tile_pair[0], tile_pair[1])
         })
         .filter(|rectangle| {
-            input
-                .iter()
-                .chain(&[input[0]])
-                .tuple_windows()
-                .all(|(corner1, corner2)| rectangle.within_corners(corner1, corner2))
+            rectangle.corners().iter()
+                .all(|r_corner| {
+                    input.contains(r_corner) ||
+                    input
+                        .iter()
+                        .chain(&[input[0]])
+                        .tuple_windows()
+                        .filter(|(corner1, corner2)| segments_intersect(((0,0), *r_corner), (**corner1, **corner2)))
+                        .count() % 2 == 1
+                })
         })
         .map(|rectangle| {
             rectangle.area()
