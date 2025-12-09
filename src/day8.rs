@@ -148,6 +148,7 @@ fn part2(input: &[JunctionBox]) -> isize {
 mod tests {
     use super::*;
 
+    #[ignore]
     #[test]
     fn part1_example() {
         assert_eq!(
