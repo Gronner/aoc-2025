@@ -50,9 +50,7 @@ fn part1(input: &[(isize, isize)]) -> isize {
     input
         .iter()
         .combinations(2)
-        .map(|tile_pair| {
-            Rectangle::new(tile_pair[0], tile_pair[1]).area()
-        })
+        .map(|tile_pair| Rectangle::new(tile_pair[0], tile_pair[1]).area())
         .max()
         .unwrap()
 }
@@ -65,9 +63,7 @@ fn part2(input: &[(isize, isize)]) -> isize {
         //  A---B
         //  |   |
         //  C---D
-        .map(|tile_pair| {
-            Rectangle::new(tile_pair[0], tile_pair[1])
-        })
+        .map(|tile_pair| Rectangle::new(tile_pair[0], tile_pair[1]))
         .filter(|rectangle| {
             input
                 .iter()
@@ -75,9 +71,7 @@ fn part2(input: &[(isize, isize)]) -> isize {
                 .tuple_windows()
                 .all(|(corner1, corner2)| rectangle.within_corners(corner1, corner2))
         })
-        .map(|rectangle| {
-            rectangle.area()
-        })
+        .map(|rectangle| rectangle.area())
         .max()
         .unwrap()
 }

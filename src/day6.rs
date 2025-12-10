@@ -96,11 +96,7 @@ fn part2(input: &str) -> i64 {
         operation: symbols.next().expect("Not enough symbols"),
     });
 
-    problems
-        .iter()
-        .inspect(|prob| println!("{prob:?}"))
-        .map(|prob| prob.compute())
-        .sum()
+    problems.iter().map(|prob| prob.compute()).sum()
 }
 
 #[cfg(test)]
