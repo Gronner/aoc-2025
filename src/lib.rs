@@ -1,3 +1,4 @@
+mod day11;
 #[macro_use]
 mod utils;
 use aoc_runner_derive::aoc_lib;
