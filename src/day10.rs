@@ -6,7 +6,6 @@ use std::{
 
 use aoc_runner_derive::{aoc, aoc_generator};
 use microlp::{ComparisonOp, OptimizationDirection, Problem};
-use num::Signed;
 
 #[derive(Debug)]
 struct Machine {
@@ -75,7 +74,7 @@ fn parse(input: &str) -> Result<Vec<Machine>> {
 
 #[aoc(day10, part1)]
 fn part1(input: &[Machine]) -> usize {
-    input.iter().map(|machine| bfs(machine)).sum()
+    input.iter().map(bfs).sum()
 }
 
 fn solve(machine: &Machine) -> f64 {
@@ -111,7 +110,7 @@ fn solve(machine: &Machine) -> f64 {
 
 #[aoc(day10, part2)]
 fn part2(input: &[Machine]) -> f64 {
-    input.iter().map(|machine| solve(machine)).sum()
+    input.iter().map(solve).sum()
 }
 
 #[cfg(test)]

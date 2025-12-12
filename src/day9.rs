@@ -1,5 +1,4 @@
 use itertools::Itertools;
-use std::isize;
 
 use aoc_runner_derive::{aoc, aoc_generator};
 
@@ -40,8 +39,8 @@ impl Rectangle {
     }
 
     fn within_corners(&self, corner1: &(isize, isize), corner2: &(isize, isize)) -> bool {
-        return (corner1.0.max(corner2.0) <= self.x_min || corner1.0.min(corner2.0) >= self.x_max)
-            || (corner1.1.max(corner2.1) <= self.y_min || corner1.1.min(corner2.1) >= self.y_max);
+        (corner1.0.max(corner2.0) <= self.x_min || corner1.0.min(corner2.0) >= self.x_max)
+            || (corner1.1.max(corner2.1) <= self.y_min || corner1.1.min(corner2.1) >= self.y_max)
     }
 }
 

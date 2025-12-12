@@ -18,7 +18,7 @@ fn parse(input: &str) -> HashMap<u64, Vec<u64>> {
             let (device, connections) = line.split_once(": ").unwrap();
             let connections = connections
                 .split_whitespace()
-                .map(|con| compute_hash(con))
+                .map(compute_hash)
                 .collect::<Vec<_>>();
             (compute_hash(device), connections)
         })
@@ -34,7 +34,7 @@ fn part1(input: &HashMap<u64, Vec<u64>>) -> usize {
                 .get(cur)
                 .unwrap()
                 .iter()
-                .map(|next| (next.clone(), 1))
+                .map(|next| (*next, 1))
                 .collect::<Vec<_>>()
         },
         |cur| {
