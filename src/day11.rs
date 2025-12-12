@@ -1,4 +1,7 @@
-use std::{collections::HashMap, hash::{DefaultHasher, Hash, Hasher}};
+use std::{
+    collections::HashMap,
+    hash::{DefaultHasher, Hash, Hasher},
+};
 
 use aoc_runner_derive::{aoc, aoc_generator};
 use memoize::memoize;
@@ -37,11 +40,10 @@ fn part1(input: &HashMap<u64, Vec<u64>>) -> usize {
                 .map(|next| (*next, 1))
                 .collect::<Vec<_>>()
         },
-        |cur| {
-            *cur == compute_hash("out")
-        },
+        |cur| *cur == compute_hash("out"),
         1000,
-    ).len()
+    )
+    .len()
 }
 
 #[memoize(Ignore: connections)]
@@ -49,11 +51,12 @@ fn dfs(start: u64, end: u64, connections: &HashMap<u64, Vec<u64>>) -> usize {
     if start == end {
         return 1;
     }
-    connections.get(&start).unwrap_or(&vec![])
+    connections
+        .get(&start)
+        .unwrap_or(&vec![])
         .iter()
         .map(|&next| dfs(next, end, connections))
         .sum()
-
 }
 
 #[aoc(day11, part2)]
@@ -64,12 +67,8 @@ fn part2(input: &HashMap<u64, Vec<u64>>) -> usize {
     let out = compute_hash("out");
 
     // Faster version thanks to https://www.reddit.com/r/adventofcode/comments/1pjp1rm/2025_day_11_solutions/ntf4e0t/
-    dfs(svr, dac, input) * 
-    dfs(dac, fft, input) * 
-    dfs(fft, out, input) +
-    dfs(svr, fft, input) * 
-    dfs(fft, dac, input) * 
-    dfs(dac, out, input)
+    dfs(svr, dac, input) * dfs(dac, fft, input) * dfs(fft, out, input)
+        + dfs(svr, fft, input) * dfs(fft, dac, input) * dfs(dac, out, input)
 }
 
 #[cfg(test)]
@@ -99,7 +98,8 @@ iii: out
     #[test]
     fn part2_example() {
         assert_eq!(
-            part2(&parse("svr: aaa bbb
+            part2(&parse(
+                "svr: aaa bbb
 aaa: fft
 fft: ccc
 bbb: tty
@@ -112,7 +112,8 @@ dac: fff
 fff: ggg hhh
 ggg: out
 hhh: out
-")),
+"
+            )),
             2
         );
     }
